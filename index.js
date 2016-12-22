@@ -6,7 +6,7 @@ const request = require('request');
 const app = express();
 
 const FB_TOKEN = "process.env.FB_PAGE_ACCESS_TOKEN";
-const WIT_TOKEN = "process.env.WIT_TOKEN";
+const WIT_TOKEN = "PRVERNRQW4KI4KUOTHI43QT2SH6U2IBQ";
 
 let Wit = null;
 let log = null;
