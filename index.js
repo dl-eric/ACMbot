@@ -1,25 +1,35 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const app = express()
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const app = express();
 
-const FB_TOKEN = "EAAT6by7HlrMBAOHgKcSI1QW9PZBUZAtYvuZCUvVphDCKRYYvC08lgOVziZBZBqmZB5uHwzxIANffnZCRH5In98yQovweolMaUgneZBDS9BD7p2jmN66SYQj0DKP9mjeUslq7BfXXGZAcDIYbjFq0cho1ZAfHqgZANynUA0UZAn3q2wzivgZDZD"
-const WIT_TOKEN = "PRVERNRQW4KI4KUOTHI43QT2SH6U2IBQ"
+const FB_TOKEN = "process.env.FB_PAGE_ACCESS_TOKEN";
+const WIT_TOKEN = "process.env.WIT_TOKEN";
 
-app.set('port', (process.env.PORT || 5000))
+let Wit = null;
+try {
+  // if running from repo
+  Wit = require('../').Wit;
+  log = require('../').log;
+} catch (e) {
+  Wit = require('node-wit').Wit;
+  log = require('node-wit').log;
+}
+
+app.set('port', (process.env.PORT || 5000));
 
 // Process application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Process application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // Index route
 app.get('/', function (req, res) {
     res.send('This is not the page you\'re looking for...')
-})
+});
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
@@ -27,12 +37,12 @@ app.get('/webhook/', function (req, res) {
         res.send(req.query['hub.challenge'])
     }
     res.send('Error, wrong token')
-})
+});
 
 // Spin up the server
 app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
-})
+});
 
 // API Endpoint
 // Messenger payload is here.
