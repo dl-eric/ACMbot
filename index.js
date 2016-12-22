@@ -9,6 +9,7 @@ const FB_TOKEN = "process.env.FB_PAGE_ACCESS_TOKEN";
 const WIT_TOKEN = "process.env.WIT_TOKEN";
 
 let Wit = null;
+let log = null;
 try {
   // if running from repo
   Wit = require('../').Wit;
