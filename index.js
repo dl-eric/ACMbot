@@ -73,7 +73,7 @@ app.post('/webhook', (req, res) => {
             .catch(console.error);
           } else if (text) {
             // We received a text message
-
+            console.log('We received something!');
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
             wit.runActions(
@@ -140,7 +140,7 @@ const fbMessage = (id, text) => {
   });
 
   const qs = 'access_token=' + encodeURIComponent(FB_TOKEN);
-  return fetch('https://graph.facebook.com/me/messages?' + qs, {
+  return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body,
