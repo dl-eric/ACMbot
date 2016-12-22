@@ -3,10 +3,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const fetch = require('node-fetch');
 const app = express();
 
 const FB_TOKEN = "process.env.FB_PAGE_ACCESS_TOKEN";
-const WIT_TOKEN = "PRVERNRQW4KI4KUOTHI43QT2SH6U2IBQ";
+const WIT_TOKEN = "process.env.WIT_ACCESS_TOKEN";
 
 let Wit = null;
 let log = null;
