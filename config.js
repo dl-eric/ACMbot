@@ -4,7 +4,7 @@ const WIT_TOKEN = process.env.WIT_TOKEN;
 const FB_PAGE_TOKEN = process.env.FB_PAGE_ACCESS_TOKEN;
 const FB_VERIFY_TOKEN = process.env.FB_VERIFY_TOKEN;
 
-
+console.log(WIT_TOKEN);
 if (!WIT_TOKEN) {
     throw new Error('Missing WIT_TOKEN.');
 }
