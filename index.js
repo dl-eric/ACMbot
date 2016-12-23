@@ -3,23 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const fetch = require('node-fetch');
+
+var FB = require('./connectors/facebook');
+var Bot = require('./bot');
+var Config = require('./config');
+
 const app = express();
-
-const FB_TOKEN = "process.env.FB_PAGE_ACCESS_TOKEN";
-const WIT_TOKEN = "PRVERNRQW4KI4KUOTHI43QT2SH6U2IBQ";
-
-let Wit = null;
-let log = null;
-try {
-  // if running from repo
-  Wit = require('../').Wit;
-  log = require('../').log;
-} catch (e) {
-  Wit = require('node-wit').Wit;
-  log = require('node-wit').log;
-}
-
 app.set('port', (process.env.PORT || 5000));
 
 // Process application/x-www-form-urlencoded
@@ -28,22 +17,23 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Process application/json
 app.use(bodyParser.json());
 
+// Spin up the server
+app.listen(app.get('port'), function() {
+    console.log('running on port', app.get('port'))
+});
+
 // Index route
 app.get('/', function (req, res) {
     res.send('This is not the page you\'re looking for...')
 });
 
-// for Facebook verification
+// Facebook verification
 app.get('/webhook/', function (req, res) {
-    if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
+    if (req.query['hub.verify_token'] === 'Config.FB_VERIFY_TOKEN') {
         res.send(req.query['hub.challenge'])
     }
-    res.send('Error, wrong token')
-});
 
-// Spin up the server
-app.listen(app.get('port'), function() {
-    console.log('running on port', app.get('port'))
+    res.send('Error, wrong token')
 });
 
 // API Endpoint
@@ -69,34 +59,14 @@ app.post('/webhook', (req, res) => {
           if (attachments) {
             // We received an attachment
             // Let's reply with an automatic message
-            fbMessage(sender, 'Sorry I can only process text messages for now.')
-            .catch(console.error);
+            FB.newMessage(sender, "What's that?");
           } else if (text) {
             // We received a text message
             console.log('We received something!');
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
-            wit.runActions(
-              sessionId, // the user's current session
-              text, // the user's message
-              sessions[sessionId].context // the user's current session state
-            ).then((context) => {
-              // Our bot did everything it has to do.
-              // Now it's waiting for further messages to proceed.
-              console.log('Waiting for next user messages');
-
-              // Based on the session state, you might want to reset the session.
-              // This depends heavily on the business logic of your bot.
-              // Example:
-              // if (context['done']) {
-              //   delete sessions[sessionId];
-              // }
-
-              // Updating the user's current session state
-              sessions[sessionId].context = context;
-            })
-            .catch((err) => {
-              console.error('Oops! Got an error from Wit: ', err.stack || err);
+            Bot.read(entry.sender.id, entry.message.text, function (sender, reply) {
+                FB.newMessage(sender, reply)   
             })
           }
         } else {
