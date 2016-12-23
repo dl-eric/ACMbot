@@ -105,7 +105,7 @@ var actions = {
 // SETUP THE WIT.AI SERVICE
 var getWit = function () {
 	console.log('GRABBING WIT')
-	return new Wit(Config.WIT_TOKEN, actions)
+	return new Wit('PRVERNRQW4KI4KUOTHI43QT2SH6U2IBQ', actions)
 }
 
 module.exports = {
