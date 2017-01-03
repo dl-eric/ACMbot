@@ -44,7 +44,7 @@ app.post('/webhook/', (req, res) => {
         if (event.message && !event.message.is_echo) {
           // Yay! We got a new message!
 
-          if (attachments) {
+          if (event.message.attachments) {
             // We received an attachment
             // Let's reply with an automatic message
             FB.newMessage(sender, "What's that?");
