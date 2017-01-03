@@ -33,12 +33,12 @@ app.get('/webhook/', function (req, res) {
         res.send(req.query['hub.challenge'])
     }
 
-    res.send('Error, wrong token')
+    res.send('Error, wrong token. Go away.')
 });
 
 // API Endpoint
 // Messenger payload is here.
-app.post('/webhook', (req, res) => {
+app.post('/webhook/', (req, res) => {
   const data = req.body;
 
   console.log('We got something...');
@@ -77,5 +77,6 @@ app.post('/webhook', (req, res) => {
       });
     });
   }
+
   res.sendStatus(200);
 });
