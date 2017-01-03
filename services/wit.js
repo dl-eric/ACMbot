@@ -23,8 +23,11 @@ var actions = {
     send({sessionId}, {text}) {
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
+        console.log(Bot.sessions)
         const recipientId = Bot.sessions[sessionId].fbid;
         
+        console.log(recipientId)
+
         if (recipientId) {
             // Yay, we found our recipient!
             // Let's forward our bot response to her.
