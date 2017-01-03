@@ -18,37 +18,25 @@ var newRequest = request.defaults({
 
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
 var newMessage = function (recipientId, msg) {
-	var opts = {
-		form: {
-			recipient: {
-				id: recipientId
-			},
+	const body = JSON.stringify({
+    	recipient: { recipientId },
+    	message: { msg },
+  	});
+  
+  	const qs = 'access_token=' + Config.FB_PAGE_TOKEN;
+  	return fetch('https://graph.facebook.com/me/messages?' + qs, {
+    	method: 'POST',
+    	headers: {'Content-Type': 'application/json'},
+    	body,
+  	})
+  	.then(rsp => rsp.json())
+  	.then(json => {
+    	if (json.error && json.error.message) {
+      		throw new Error(json.error.message);
 		}
-	}
-
-	// https://developers.facebook.com/docs/messenger-platform/send-api-reference
-
-	if (atts) {
-		var message = {
-			attachment: {
-				"type": "image",
-				"payload": {
-					"url": msg
-				}
-			}
-		}
-	} else {
-		var message = {
-			text: msg
-		}
-	}
-	opts.form.message = message
-
-	newRequest(opts, function (err, resp, data) {
-		if (cb) {
-			cb(err || data.error && data.error.message, data)
-		}
-	})
+    	
+		return json;
+  	});
 }
 
 // PARSE A FACEBOOK MESSAGE to get user, message body, or attachment
