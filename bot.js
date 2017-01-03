@@ -1,7 +1,10 @@
 'use strict'
 
 var Config = require('./config')
-var wit = require('./services/wit').getWit()
+var FB = require('../connectors/facebook')
+var Wit = require('node-wit').Wit
+var request = require('request')
+var myWit = getWit()
 
 // This will contain all user sessions.
 // Each session has an entry:
@@ -43,7 +46,7 @@ var read = function (sender, message, reply) {
 		var sessionId = findOrCreateSession(sender)
 		// Let's forward the message to the Wit.ai bot engine
 		// This will run all actions until there are no more actions left to do
-		wit.runActions(
+		myWit.runActions(
 			sessionId, // the user's current session by id
 			message,  // the user's message
 			sessions[sessionId].context, // the user's session state
@@ -68,9 +71,39 @@ var read = function (sender, message, reply) {
 	}
 }
 
+// WIT ACTIONS
+var actions = {
+    send({sessionId}, {text}) {
+        // Our bot has something to say!
+        // Let's retrieve the Facebook user whose session belongs to
+        const recipientId = sessions[sessionId].fbid;
+
+        if (recipientId) {
+            // Yay, we found our recipient!
+            // Let's forward our bot response to her.
+            // We return a promise to let our bot know when we're done sending
+
+            FB.newMessage(recipientId, text);
+        } else {
+            console.error('Oops! Couldn\'t find user for session:', sessionId);
+            // Giving the wheel back to our bot
+            return Promise.resolve()
+        }
+    },
+    // You should implement your custom actions here
+    // See https://wit.ai/docs/quickstart
+}
+
+// SETUP THE WIT.AI SERVICE
+var getWit = function () {
+    console.log('GRABBING WIT')
+    return new Wit({
+        accessToken: Config.WIT_TOKEN,
+        actions
+    })
+}
+
 module.exports = {
 	findOrCreateSession: findOrCreateSession,
 	read: read
 }
-
-module.exports.sessions = sessions
