@@ -4,6 +4,16 @@ var Config = require('./config')
 var FB = require('./connectors/facebook')
 var Wit = require('node-wit').Wit
 var request = require('request')
+
+// SETUP THE WIT.AI SERVICE
+var getWit = function () {
+    console.log('GRABBING WIT')
+    return new Wit({
+        accessToken: Config.WIT_TOKEN,
+        actions
+    })
+}
+
 var myWit = getWit()
 
 // This will contain all user sessions.
@@ -92,15 +102,6 @@ var actions = {
     },
     // You should implement your custom actions here
     // See https://wit.ai/docs/quickstart
-}
-
-// SETUP THE WIT.AI SERVICE
-var getWit = function () {
-    console.log('GRABBING WIT')
-    return new Wit({
-        accessToken: Config.WIT_TOKEN,
-        actions
-    })
 }
 
 module.exports = {
