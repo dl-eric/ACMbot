@@ -62,7 +62,7 @@ app.post('/webhook/', (req, res) => {
             console.log('We received something!');
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
-            Bot.read(entry.sender.id, entry.message.text, function (sender, reply) {
+            Bot.read(sender, text, function (sender, reply) {
                 FB.newMessage(sender, reply)   
             })
           }
