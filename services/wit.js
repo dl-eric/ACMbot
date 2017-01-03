@@ -4,6 +4,7 @@ var Config = require('../config')
 var FB = require('../connectors/facebook')
 var Wit = require('node-wit').Wit
 var request = require('request')
+var Bot = require('../bot')
 
 
 var firstEntityValue = function (entities, entity) {
@@ -19,11 +20,11 @@ var firstEntityValue = function (entities, entity) {
 }
 
 var actions = {
-    send({sessionId}, {text}, {context}) {
+    send({sessionId}, {text}) {
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
-        const recipientId = context._fbid_;
-
+        const recipientId = Bot.sessions[sessionId].fbid;
+        
         if (recipientId) {
             // Yay, we found our recipient!
             // Let's forward our bot response to her.
