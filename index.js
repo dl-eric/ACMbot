@@ -48,7 +48,7 @@ app.post('/webhook/', (req, res) => {
             // We received an attachment
             // Let's reply with an automatic message
             FB.newMessage(sender, "What's that?");
-          } else if (text) {
+          } else if (event.message.text) {
             // We received a text message
             console.log('We received something!');
             // Let's forward the message to the Wit.ai Bot Engine
