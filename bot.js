@@ -7,7 +7,7 @@ var request = require('request')
 
 // WIT ACTIONS
 var actions = {
-    send({sessionId}, {text}) {
+    send(sessionId, text) {
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
         const recipientId = sessions[sessionId].fbid;
