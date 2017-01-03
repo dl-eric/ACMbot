@@ -5,6 +5,8 @@ var Config = require('../config')
 
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
 var newMessage = function (recipientId, msg) {
+	console.log(recipientId)
+	console.log(msg)
 	const body = JSON.stringify({
     	recipient: { recipientId },
     	message: { msg },
