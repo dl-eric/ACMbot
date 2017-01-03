@@ -3,7 +3,9 @@
 var Config = require('./config')
 var wit = require('./services/wit').getWit()
 
-// LETS SAVE USER SESSIONS
+// This will contain all user sessions.
+// Each session has an entry:
+// sessionId -> {fbid: facebookUserId, context: sessionState}
 var sessions = {}
 
 var findOrCreateSession = function (fbid) {
@@ -27,7 +29,7 @@ var findOrCreateSession = function (fbid) {
       }
     }
   }
-
+	console.log(sessions)
   return sessionId
 }
 
