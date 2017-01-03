@@ -3,28 +3,17 @@
 var request = require('request')
 var Config = require('../config')
 
-// SETUP A REQUEST TO FACEBOOK SERVER
-var newRequest = request.defaults({
-	uri: 'https://graph.facebook.com/v2.6/me/messages',
-	method: 'POST',
-	json: true,
-	qs: {
-		access_token: Config.FB_PAGE_TOKEN
-	},
-	headers: {
-		'Content-Type': 'application/json'
-	},
-})
-
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
 var newMessage = function (recipientId, msg) {
 	const body = JSON.stringify({
     	recipient: { recipientId },
     	message: { msg },
   	});
+
+	console.log(body)
   
   	const qs = 'access_token=' + Config.FB_PAGE_TOKEN;
-  	return fetch('https://graph.facebook.com/me/messages?' + qs, {
+  	return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
     	method: 'POST',
     	headers: {'Content-Type': 'application/json'},
     	body,
