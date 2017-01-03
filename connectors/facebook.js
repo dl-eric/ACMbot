@@ -13,6 +13,7 @@ var newMessage = function (recipientId, msg) {
 	console.log(body)
   
   	const qs = 'access_token=' + Config.FB_PAGE_TOKEN;
+	console.log(qs)
   	return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
     	method: 'POST',
     	headers: {'Content-Type': 'application/json'},
