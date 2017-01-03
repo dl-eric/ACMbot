@@ -29,7 +29,7 @@ var findOrCreateSession = function (fbid) {
       }
     }
   }
-	console.log(sessions)
+
   return sessionId
 }
 
@@ -70,6 +70,7 @@ var read = function (sender, message, reply) {
 
 module.exports = {
 	findOrCreateSession: findOrCreateSession,
-	read: read,
-	sessions: sessions
+	read: read
 }
+
+module.exports.sessions = sessions
