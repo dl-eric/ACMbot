@@ -43,15 +43,6 @@ app.post('/webhook/', (req, res) => {
       entry.messaging.forEach(event => {
         if (event.message && !event.message.is_echo) {
           // Yay! We got a new message!
-          // We retrieve the Facebook user ID of the sender
-          const sender = event.sender.id;
-
-          // We retrieve the user's current session, or create one if it doesn't exist
-          // This is needed for our bot to figure out the conversation history
-          const sessionId = Bot.findOrCreateSession(sender);
-
-          // We retrieve the message content
-          const {text, attachments} = event.message;
 
           if (attachments) {
             // We received an attachment
@@ -62,7 +53,7 @@ app.post('/webhook/', (req, res) => {
             console.log('We received something!');
             // Let's forward the message to the Wit.ai Bot Engine
             // This will run all actions until our bot has nothing left to do
-            Bot.read(sender, text, function (sender, reply) {
+            Bot.read(event.sender.id, event.message.text, function (sender, reply) {
                 FB.newMessage(sender, reply)   
             })
           }
