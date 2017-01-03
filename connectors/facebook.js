@@ -44,7 +44,6 @@ var getMessageEntry = function (body) {
 }
 
 module.exports = {
-	newRequest: newRequest,
 	newMessage: newMessage,
 	getMessageEntry: getMessageEntry,
 }
