@@ -43,4 +43,5 @@ var getMessageEntry = function (body) {
 
 module.exports = {
 	newMessage: newMessage,
+	getMessageEntry: getMessageEntry,
 }
