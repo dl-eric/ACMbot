@@ -9,8 +9,6 @@ var newMessage = function (id, text) {
     	recipient: {id},
     	message: {text},
   	});
-
-	console.log(body)
   
   	const qs = 'access_token=' + Config.FB_PAGE_TOKEN;
   	return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
