@@ -48,16 +48,18 @@ app.get('/webhook/', function (req, res) {
         res.send(req.query['hub.challenge'])
     }
 
+		console.log('Wrong FB_VERIFY_TOKEN')
     res.send('Error, wrong token. Go away.')
-	res.sendStatus(400); // this is where HTTP bad request 400 should be flagged
+		res.sendStatus(400); // this is where HTTP bad request 400 should be flagged
 });
 
 // API Endpoint
 // Messenger payload is here.
 app.post('/webhook/', (req, res) => {
+	console.log(req.body)
   const data = FB.getMessageEntry(req.body) // added a call to FB.getMessageEntry instead of simply calling req.body
   if(data && data.message) {
-  	  // this block should only run when we get a message
+  	// this block should only run when we get a message
 	  // all of these are from https://developers.facebook.com/docs/messenger-platform/webhook-reference/message link
 	  // that was in the facebook.js file
 	  const sender = messaging.sender.id; // we need this for the parameter in the next line
