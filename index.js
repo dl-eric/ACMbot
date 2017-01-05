@@ -8,7 +8,7 @@ const FB = require('./connectors/facebook'); // make it a const
 const Bot = require('./bot'); // making it a const
 const Config = require('./config'); // was there a reason these were vars
 
-const wit Bot.getWit(); // since you have this function anyway in the Bot file might as well use it
+const wit = Bot.getWit(); // since you have this function anyway in the Bot file might as well use it
 
 
 // shameless copy pasta from bot.js
