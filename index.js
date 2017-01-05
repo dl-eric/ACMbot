@@ -8,9 +8,10 @@ const FB = require('./connectors/facebook');
 const Bot = require('./bot');
 const Config = require('./config');
 
-const app = express();
 const wit = Bot.getWit(); // since you have this function anyway in the Bot file might as well use it
-
+const app = express();
+app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
+app.use(bodyParser.json()); // Process application/json
 
 // shameless copy pasta from bot.js
 // this will make more sense why I copied it to this file later
@@ -103,8 +104,6 @@ app.post('/webhook/', (req, res) => {
 
 // Spin up the server
 app.set('port', (process.env.PORT || 5000));
-app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
-app.use(bodyParser.json()); // Process application/json
 app.listen(app.get('port')); // split up the listen and the log
 console.log('running on port', app.get('port'));
 
