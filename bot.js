@@ -53,5 +53,5 @@ if (require.main === module) {
 }
 
 module.exports = {
-    getWit = getWit
+    getWit: getWit
 }
