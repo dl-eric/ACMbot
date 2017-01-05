@@ -1,13 +1,18 @@
 'use strict'
 
-var Config = require('./config')
-var FB = require('./connectors/facebook')
-var Wit = require('node-wit').Wit
-var request = require('request')
+const Config = require('./config') // these could all be consts
+const FB = require('./connectors/facebook')
+const Wit = require('node-wit').Wit
+// request is no longer needed
+const {interactive} = require('node-wit'); // this is here for testing in command line
 
 // WIT ACTIONS
-var actions = {
+const actions = {
     send({sessionId}, {text}) {
+		if (require.main === module) {
+			console.log(text);
+		      return;
+		    }
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
         const recipientId = sessions[sessionId].fbid;
@@ -29,7 +34,8 @@ var actions = {
 }
 
 // SETUP THE WIT.AI SERVICE
-var getWit = function () {
+// changed it to const
+const getWit = function () {
     console.log('GRABBING WIT')
     return new Wit({
         accessToken: Config.WIT_TOKEN,
@@ -39,72 +45,12 @@ var getWit = function () {
 
 var myWit = getWit()
 
-// This will contain all user sessions.
-// Each session has an entry:
-// sessionId -> {fbid: facebookUserId, context: sessionState}
-var sessions = {}
 
-var findOrCreateSession = function (fbid) {
-  var sessionId;
-
-  // DOES USER SESSION ALREADY EXIST?
-  Object.keys(sessions).forEach(k => {
-    if (sessions[k].fbid === fbid) {
-      // YUP
-      sessionId = k
-    }
-  })
-
-  // No session so we will create one
-  if (!sessionId) {
-    sessionId = new Date().toISOString()
-    sessions[sessionId] = {
-      fbid: fbid,
-      context: {
-        _fbid_: fbid
-      }
-    }
-  }
-
-  return sessionId
-}
-
-var read = function (sender, message, reply) {
-	if (message === 'hello') {
-		// Let's reply back hello
-		message = 'Hello yourself! I am a chat bot. You can say "show me pics of corgis"'
-		reply(sender, message)
-	} else {
-		// Let's find the user
-		var sessionId = findOrCreateSession(sender)
-		// Let's forward the message to the Wit.ai bot engine
-		// This will run all actions until there are no more actions left to do
-		myWit.runActions(
-			sessionId, // the user's current session by id
-			message,  // the user's message
-			sessions[sessionId].context, // the user's session state
-			function (error, context) { // callback
-			if (error) {
-				console.log('oops!', error)
-			} else {
-				// Wit.ai ran all the actions
-				// Now it needs more messages
-				console.log('Waiting for further messages')
-
-				// Based on the session state, you might want to reset the session
-				// Example:
-				// if (context['done']) {
-				// 	delete sessions[sessionId]
-				// }
-
-				// Updating the user's current session state
-				sessions[sessionId].context = context
-			}
-		})
-	}
-}
-
-module.exports = {
-	findOrCreateSession: findOrCreateSession,
-	read: read
+// bot testing mode
+// use this to test the bot in command line without deploying
+// the command is WIT_TOKEN = {wit token} node bot
+if (require.main === module) {
+  console.log("Bot testing mode.");
+  const client = getWit();
+  interactive(client);
 }
