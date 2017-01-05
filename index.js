@@ -57,7 +57,8 @@ app.get('/webhook/', function (req, res) {
 // API Endpoint
 // Messenger payload is here.
 app.post('/webhook/', (req, res) => {
-	console.log(req.body)
+	console.log('Res' + res)
+	console.log('Req' + req.body)
   const data = FB.getMessageEntry(req.body)
   if(data && data.message) {
 		data.entry.forEach(entry => {
