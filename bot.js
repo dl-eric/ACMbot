@@ -19,7 +19,7 @@ const actions = {
 
         if (recipientId) {
             // Yay, we found our recipient!
-            // Let's forward our bot response to her.
+            // Let's forward our bot response to them.
             // We return a promise to let our bot know when we're done sending
 
             FB.newMessage(recipientId, text);
@@ -43,9 +43,6 @@ const getWit = function () {
     })
 }
 
-var myWit = getWit()
-
-
 // bot testing mode
 // use this to test the bot in command line without deploying
 // the command is WIT_TOKEN = {wit token} node bot
@@ -53,4 +50,8 @@ if (require.main === module) {
   console.log("Bot testing mode.");
   const client = getWit();
   interactive(client);
+}
+
+module.exports = {
+    getWit = getWit
 }

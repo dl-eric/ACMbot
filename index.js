@@ -4,9 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 
-const FB = require('./connectors/facebook'); // make it a const
-const Bot = require('./bot'); // making it a const
-const Config = require('./config'); // was there a reason these were vars
+const FB = require('./connectors/facebook');
+const Bot = require('./bot');
+const Config = require('./config');
 
 const wit = Bot.getWit(); // since you have this function anyway in the Bot file might as well use it
 
@@ -88,7 +88,7 @@ app.post('/webhook/', (req, res) => {
 				    // }
 
 				    // Updating the user's current session state
-                    sessions[sessionId].context = context;
+            sessions[sessionId].context = context;
 				}
 			});
 	  } else {
@@ -109,5 +109,5 @@ console.log('running on port', app.get('port'));
 
 // Index route
 app.get('/', function (req, res) {
-    res.send('This IS the page you are looking for!! Welcome and have a nice day :)') // changed the server message
+    res.send('This IS the page you are looking for!! Welcome and have a nice day :)')
 });
