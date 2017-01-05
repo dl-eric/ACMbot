@@ -8,6 +8,7 @@ const FB = require('./connectors/facebook');
 const Bot = require('./bot');
 const Config = require('./config');
 
+const app = express();
 const wit = Bot.getWit(); // since you have this function anyway in the Bot file might as well use it
 
 
@@ -98,9 +99,7 @@ app.post('/webhook/', (req, res) => {
   res.sendStatus(200);
 });
 
-// rearranged all the server related commands to down here
 // Spin up the server
-const app = express();
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
 app.use(bodyParser.json()); // Process application/json
