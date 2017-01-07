@@ -3,19 +3,21 @@
 const Config = require('./config') // these could all be consts
 const FB = require('./connectors/facebook')
 const Wit = require('node-wit').Wit
+const index = require('./index.js')
+
 // request is no longer needed
 const {interactive} = require('node-wit'); // this is here for testing in command line
 
 // WIT ACTIONS
 const actions = {
-    send({sessionId}, {context}, {text}) {
+    send({sessionId}, {text}) {
 		if (require.main === module) {
 			console.log(text);
 		      return;
 		    }
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
-        const recipientId = context._fbid_;
+        const recipientId = index.sessions[sessionId].fbid;
 
         if (recipientId) {
             // Yay, we found our recipient!

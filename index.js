@@ -100,7 +100,7 @@ app.post('/webhook/', (req, res) => {
 	}
   res.sendStatus(200);
 });
-
+module.exports = { sessions: "sessions" };
 
 // Spin up the server
 app.set('port', (process.env.PORT || 5000));
