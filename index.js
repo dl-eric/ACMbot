@@ -1,31 +1,41 @@
 'use strict'
-
+/********************
+ **required modules**
+ ********************/
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const FB = require('./connectors/facebook');
 const Bot = require('./bot.js');
-const wit = Bot.getWit();
 const Config = require('./config.js');
 
-// Spin up the server
+/********************************
+ **useful constant declarations**
+ ********************************/
+const wit = Bot.getWit();
+const sessions = {}
+
+/***********************
+ **server related code**
+ ***********************/
+// spin up the server!
+// the lines beginning with app.use is necessary because
+// otherwise a string decoder error is flagged 
 const app = express();
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port')); // split up the listen and the log
 app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
 app.use(bodyParser.json()); // Process application/json\
 console.log('running on port', app.get('port'));
-
 // Index route
 app.get('/', function (req, res) {
     res.send('This IS the page you are looking for!! Welcome and have a nice day :)')
 });
 
-// shameless copy pasta from bot.js
-// this will make more sense why I copied it to this file later
-
-const sessions = {}
-
+/*************************
+ **Facebook related code**
+ *************************/
+// the all caps makes us seem more violent than we actually are in my opinion - Min
 var findOrCreateSession = function (fbid) {
   var sessionId;
   // DOES USER SESSION ALREADY EXIST?
@@ -86,13 +96,11 @@ app.post('/webhook/', (req, res) => {
 					// Wit.ai ran all the actions
 				    // Now it needs more messages
 				    console.log('Waiting for further messages');
-
 				    // Based on the session state, you might want to reset the session
 				    // Example:
 				    // if (context['done']) {
 				    // 	delete sessions[sessionId]
 				    // }
-
 				    // Updating the user's current session state
                     sessions[sessionId].context = context;
 				}

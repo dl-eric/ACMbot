@@ -1,19 +1,25 @@
 'use strict'
-
+/********************
+ **required modules**
+ ********************/
 var request = require('request')
 var Config = require('../config')
 
+/**********************
+ **Facebook functions**
+ **********************/
+// a beautiful product of peer programming
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
 var newMessage = function (id, text, qckreplies) {
-	var body = ''
-	if(qckreplies) {
-		var quick_replies = []
+	var body = '' // declared as a string because of JSON.stringify
+	if(qckreplies) { // qckreplies will be nil if the response should be a simple text
+		var quick_replies = [] // quick_replies will end up being an array of json objects
 
 		for(let i = 0; i < qckreplies.length; i++) {
 			let myQuickReply = {
 			'content_type': 'text',
 			'title': qckreplies[i],
-			'payload':'W0T'
+			'payload':'W0T' // look up the use for this key-value pair
 			}
 
 			quick_replies.push(myQuickReply)
@@ -31,7 +37,7 @@ var newMessage = function (id, text, qckreplies) {
 	}
 	
 	console.log(body);
-
+	
   	const qs = 'access_token=' + Config.FB_PAGE_TOKEN;
   	return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
     	method: 'POST',
@@ -43,7 +49,6 @@ var newMessage = function (id, text, qckreplies) {
     	if (json.error && json.error.message) {
       		throw new Error(json.error.message);
 		}
-    	
 		return json;
   	});
 }
@@ -62,7 +67,10 @@ var getMessageEntry = function (body) {
 						body.entry[0].messaging[0]
 	return val || null
 }
-
+// exporting for use in other files
+// getMessageEntry is used to determine whether
+// a message contains attachments or not since
+// the app currently does not support attachments
 module.exports = {
 	newMessage: newMessage,
 	getMessageEntry: getMessageEntry,

@@ -1,12 +1,16 @@
 'use strict'
-
-const Config = require('./config') // these could all be consts
+/********************
+ **required modules**
+ ********************/
+const Config = require('./config')
 const FB = require('./connectors/facebook')
 const Wit = require('node-wit').Wit
 const index = require('./index.js')
 // request is no longer needed
 
-// WIT ACTIONS
+/******************
+ **Wit.ai actions**
+ ******************/
 const actions = {
     send(request, response) {
         // Our bot has something to say!
@@ -25,12 +29,13 @@ const actions = {
             return Promise.resolve()
         }
     },
-    // You should implement your custom actions here
-    // See https://wit.ai/docs/quickstart
+    // custom actions should go here
 }
 
+/*******************
+ **Wit.ai services**
+ *******************/
 // SETUP THE WIT.AI SERVICE
-// changed it to const
 const getWit = function () {
     console.log('GRABBING WIT')
     return new Wit({
@@ -38,7 +43,7 @@ const getWit = function () {
         actions
     })
 }
-
+// exporting for use in index.js and potentially other files
 module.exports = {
     getWit: getWit
 }
