@@ -11,7 +11,7 @@ const actions = {
     send(request, response) {
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
-        const recipientId = request.recipient.id;
+        const recipientId = request.id;
         if (recipientId) {
             // Yay, we found our recipient!
             // Let's forward our bot response to them.
