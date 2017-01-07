@@ -23,8 +23,8 @@ const actions = {
             // We return a promise to let our bot know when we're done sending
 
             console.log(JSON.stringify(response));
-            
-            FB.newMessage(recipientId, text);
+
+            FB.newMessage(recipientId, response.text);
         } else {
             console.error('Oops! Couldn\'t find user for session:', request.sessionId);
             // Giving the wheel back to our bot
