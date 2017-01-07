@@ -9,7 +9,7 @@ var newMessage = function (id, text, qckreplies) {
 	if(qckreplies) {
 		var quickreplies = []
 
-		for(let i = 0; i < quickreplies.length; i++) {
+		for(let i = 0; i < qckreplies.length; i++) {
 			let myQuickReply = {
 			'content_type': 'text',
 			'title': qckreplies[i],
