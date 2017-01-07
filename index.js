@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const FB = require('./connectors/facebook');
+const Bot = require('./bot.js');
 const wit = Bot.getWit();
 
 // Spin up the server
