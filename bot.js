@@ -11,12 +11,12 @@ const actions = {
     send(request, response) {
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
+		console.log(JSON.stringify(request));
         const recipientId = request.id;
         if (recipientId) {
             // Yay, we found our recipient!
             // Let's forward our bot response to them.
             // We return a promise to let our bot know when we're done sending
-			console.log(JSON.stringify(request));
             console.log(JSON.stringify(response));
             FB.newMessage(recipientId, response.text, response.quickreplies);
         } else {
