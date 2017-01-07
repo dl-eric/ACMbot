@@ -12,19 +12,21 @@ const Config = require('./config');
 var sessions = {}
 
 const actions = {
-    send({sessionId}, {text}) {
+    send(request, response) {
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
-        const recipientId = sessions[sessionId].fbid;
+        const recipientId = sessions[request.sessionId].fbid;
 
         if (recipientId) {
             // Yay, we found our recipient!
             // Let's forward our bot response to them.
             // We return a promise to let our bot know when we're done sending
 
+            console.log(JSON.stringify(response));
+            
             FB.newMessage(recipientId, text);
         } else {
-            console.error('Oops! Couldn\'t find user for session:', sessionId);
+            console.error('Oops! Couldn\'t find user for session:', request.sessionId);
             // Giving the wheel back to our bot
             return Promise.resolve()
         }
