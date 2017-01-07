@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-
+const Wit = require('node-wit').Wit
 const FB = require('./connectors/facebook');
 const Config = require('./config');
 var sessions = {}
