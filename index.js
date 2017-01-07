@@ -13,10 +13,6 @@ var sessions = {}
 
 const actions = {
     send({sessionId}, {text}) {
-		if (require.main === module) {
-			console.log(text);
-		      return;
-		    }
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
         const recipientId = sessions[sessionId].fbid;
@@ -146,7 +142,7 @@ app.post('/webhook/', (req, res) => {
 // bot testing mode
 // use this to test the bot in command line without deploying
 // the command is WIT_TOKEN = {wit token} node index
-module.exports = { sessions: "sessions" };
+// module.exports = { sessions: "sessions" };
 
 // Spin up the server
 app.set('port', (process.env.PORT || 5000));
