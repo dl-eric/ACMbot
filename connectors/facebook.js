@@ -9,12 +9,12 @@ var newMessage = function (id, text, quickreplies) {
 	if(quickreplies) {
 		body = JSON.stringify({
 			recipient: {id},
-			message: {text},
+			message: {text, quickreplies},
 		});
 	} else {
 		body = JSON.stringify({
 			recipient: {id},
-			message: {text, quickreplies},
+			message: {text},
 		});
 	}
 	
