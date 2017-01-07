@@ -62,10 +62,10 @@ app.post('/webhook/', (req, res) => {
   	  // this block should only run when we get a message
 	  // all of these are from https://developers.facebook.com/docs/messenger-platform/webhook-reference/message link
 	  // that was in the facebook.js file
-	  const sender = messaging.sender.id; // we need this for the parameter in the next line
+	  const sender = data.sender.id; // we need this for the parameter in the next line
 	  const sessionId = findOrCreateSession(sender); // this is why I wanted to copy pasta the block from bot.js
-	  const mssg = messaging.message.text; // from the webhook reference
-	  const attchmnts = messaging.message.attachments; // from the webhook reference
+	  const mssg = data.message.text; // from the webhook reference
+	  const attchmnts = data.message.attachments; // from the webhook reference
 	  
 	  if (attchmnts) { // when we declare attchmnts if it's there then it will trigger the if statement bc it's not nil
 		  FB.newMessage(sender, "What's that?"); // hey look! this is your code!
