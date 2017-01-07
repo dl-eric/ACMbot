@@ -10,14 +10,14 @@ const {interactive} = require('node-wit'); // this is here for testing in comman
 
 // WIT ACTIONS
 const actions = {
-    send({sessionId}, {text}) {
+    say(sessionId, context, text, cb) {
 		if (require.main === module) {
 			console.log(text);
 		      return;
 		    }
         // Our bot has something to say!
         // Let's retrieve the Facebook user whose session belongs to
-        const recipientId = index.sessions[sessionId].fbid;
+        const recipientId = context._fbid_;
 
         if (recipientId) {
             // Yay, we found our recipient!
