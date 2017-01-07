@@ -6,41 +6,7 @@ const request = require('request');
 
 const FB = require('./connectors/facebook');
 const Config = require('./config');
-
-const wit = getWit();
-const app = express();
-app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
-app.use(bodyParser.json()); // Process application/json
-
-const {interactive} = require('node-wit'); // this is here for testing in command line
-// shameless copy pasta from bot.js
-// this will make more sense why I copied it to this file later
 var sessions = {}
-
-var findOrCreateSession = function (fbid) {
-  var sessionId;
-
-  // DOES USER SESSION ALREADY EXIST?
-  Object.keys(sessions).forEach(k => {
-    if (sessions[k].fbid === fbid) {
-      // YUP
-      sessionId = k
-    }
-  })
-
-  // No session so we will create one
-  if (!sessionId) {
-    sessionId = new Date().toISOString()
-    sessions[sessionId] = {
-      fbid: fbid,
-      context: {
-        _fbid_: fbid
-      }
-    }
-  }
-
-  return sessionId
-}
 
 const actions = {
     send({sessionId}, {text}) {
@@ -67,6 +33,49 @@ const actions = {
     // You should implement your custom actions here
     // See https://wit.ai/docs/quickstart
 }
+
+const getWit = function () {
+    console.log('GRABBING WIT')
+    return new Wit({
+        accessToken: Config.WIT_TOKEN,
+        actions
+    })
+}
+const wit = getWit();
+const app = express();
+app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
+app.use(bodyParser.json()); // Process application/json
+
+const {interactive} = require('node-wit'); // this is here for testing in command line
+// shameless copy pasta from bot.js
+// this will make more sense why I copied it to this file later
+
+
+var findOrCreateSession = function (fbid) {
+  var sessionId;
+
+  // DOES USER SESSION ALREADY EXIST?
+  Object.keys(sessions).forEach(k => {
+    if (sessions[k].fbid === fbid) {
+      // YUP
+      sessionId = k
+    }
+  })
+
+  // No session so we will create one
+  if (!sessionId) {
+    sessionId = new Date().toISOString()
+    sessions[sessionId] = {
+      fbid: fbid,
+      context: {
+        _fbid_: fbid
+      }
+    }
+  }
+
+  return sessionId
+}
+
 
 
 // Facebook verification
@@ -128,13 +137,6 @@ app.post('/webhook/', (req, res) => {
 });
 // SETUP THE WIT.AI SERVICE
 // changed it to const
-const getWit = function () {
-    console.log('GRABBING WIT')
-    return new Wit({
-        accessToken: Config.WIT_TOKEN,
-        actions
-    })
-}
 
 if (require.main === module) {
   console.log("Bot testing mode.");
