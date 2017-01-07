@@ -6,7 +6,7 @@ var Config = require('../config')
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
 var newMessage = function (id, text, qckreplies) {
 	var body = ''
-	if(quickreplies) {
+	if(qckreplies) {
 		var quickreplies = []
 
 		for(let i = 0; i < quickreplies.length; i++) {
