@@ -6,6 +6,7 @@ const request = require('request');
 const FB = require('./connectors/facebook');
 const Bot = require('./bot.js');
 const wit = Bot.getWit();
+const Config = require('./config.js');
 
 // Spin up the server
 const app = express();
