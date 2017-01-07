@@ -5,14 +5,14 @@ const bodyParser = require('body-parser');
 const request = require('request');
 
 const FB = require('./connectors/facebook');
-const Bot = require('./bot');
 const Config = require('./config');
 
-const wit = Bot.getWit(); // since you have this function anyway in the Bot file might as well use it
+const wit = getWit();
 const app = express();
 app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
 app.use(bodyParser.json()); // Process application/json
 
+const {interactive} = require('node-wit'); // this is here for testing in command line
 // shameless copy pasta from bot.js
 // this will make more sense why I copied it to this file later
 var sessions = {}
@@ -40,6 +40,32 @@ var findOrCreateSession = function (fbid) {
   }
 
   return sessionId
+}
+
+const actions = {
+    send({sessionId}, {text}) {
+		if (require.main === module) {
+			console.log(text);
+		      return;
+		    }
+        // Our bot has something to say!
+        // Let's retrieve the Facebook user whose session belongs to
+        const recipientId = sessions[sessionId].fbid;
+
+        if (recipientId) {
+            // Yay, we found our recipient!
+            // Let's forward our bot response to them.
+            // We return a promise to let our bot know when we're done sending
+
+            FB.newMessage(recipientId, text);
+        } else {
+            console.error('Oops! Couldn\'t find user for session:', sessionId);
+            // Giving the wheel back to our bot
+            return Promise.resolve()
+        }
+    },
+    // You should implement your custom actions here
+    // See https://wit.ai/docs/quickstart
 }
 
 
@@ -100,6 +126,24 @@ app.post('/webhook/', (req, res) => {
 	}
   res.sendStatus(200);
 });
+// SETUP THE WIT.AI SERVICE
+// changed it to const
+const getWit = function () {
+    console.log('GRABBING WIT')
+    return new Wit({
+        accessToken: Config.WIT_TOKEN,
+        actions
+    })
+}
+
+if (require.main === module) {
+  console.log("Bot testing mode.");
+  const client = getWit();
+  interactive(client);
+}
+// bot testing mode
+// use this to test the bot in command line without deploying
+// the command is WIT_TOKEN = {wit token} node index
 module.exports = { sessions: "sessions" };
 
 // Spin up the server
