@@ -3,6 +3,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const app = express();
+app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
+app.use(bodyParser.json()); // Process application/json
 const Wit = require('node-wit').Wit
 const FB = require('./connectors/facebook');
 const Config = require('./config');
@@ -42,9 +45,6 @@ const getWit = function () {
     })
 }
 const wit = getWit();
-const app = express();
-app.use(bodyParser.urlencoded({extended: false})); // Process application/x-www-form-urlencoded
-app.use(bodyParser.json()); // Process application/json
 
 const {interactive} = require('node-wit'); // this is here for testing in command line
 // shameless copy pasta from bot.js
