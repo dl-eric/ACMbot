@@ -1,12 +1,12 @@
 'use strict'
 /********************
- **required modules**
+ * Required modules *
  ********************/
 var request = require('request')
 var Config = require('../config')
 
 /**********************
- **Facebook functions**
+ * Facebook functions *
  **********************/
 // a beautiful product of peer programming
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST

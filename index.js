@@ -1,6 +1,6 @@
 'use strict'
 /********************
- **required modules**
+ * Required Modules *
  ********************/
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,13 +10,13 @@ const Bot = require('./bot.js');
 const Config = require('./config.js');
 
 /********************************
- **useful constant declarations**
+ * Useful constant declarations *
  ********************************/
 const wit = Bot.getWit();
 const sessions = {}
 
 /***********************
- **server related code**
+ * Server related code *
  ***********************/
 // spin up the server!
 // the lines beginning with app.use is necessary because
@@ -33,19 +33,19 @@ app.get('/', function (req, res) {
 });
 
 /*************************
- **Facebook related code**
+ * Facebook related code *
  *************************/
-// the all caps makes us seem more violent than we actually are in my opinion - Min
 var findOrCreateSession = function (fbid) {
   var sessionId;
-  // DOES USER SESSION ALREADY EXIST?
+  // Check to see if the user already exists.
   Object.keys(sessions).forEach(k => {
     if (sessions[k].fbid === fbid) {
-      // YUP
+      // It does!
       sessionId = k
     }
   })
-  // No session so we will create one
+
+  // We didn't find an existing session, so we'll create one.
   if (!sessionId) {
     sessionId = new Date().toISOString()
     sessions[sessionId] = {
@@ -91,9 +91,9 @@ app.post('/webhook/', (req, res) => {
 			sessions[sessionId].context, // the user's session state
 			function (error, context) { // callback
 				if (error) {
-					console.log('oops!', error);
+						console.log('oops!', error);
 				} else {
-					// Wit.ai ran all the actions
+						// Wit.ai ran all the actions
 				    // Now it needs more messages
 				    console.log('Waiting for further messages');
 				    // Based on the session state, you might want to reset the session
@@ -102,13 +102,14 @@ app.post('/webhook/', (req, res) => {
 				    // 	delete sessions[sessionId]
 				    // }
 				    // Updating the user's current session state
-                    sessions[sessionId].context = context;
+           	sessions[sessionId].context = context;
 				}
 			});
 	  } else {
 			console.log('received event', JSON.stringify(event)); // kept it here
 		}
 	}
+	
   res.sendStatus(200);
 });
 

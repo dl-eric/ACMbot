@@ -1,6 +1,6 @@
 'use strict'
 /********************
- **required modules**
+ * Required modules *
  ********************/
 const Config = require('./config')
 const FB = require('./connectors/facebook')
@@ -9,7 +9,7 @@ const index = require('./index.js')
 // request is no longer needed
 
 /******************
- **Wit.ai actions**
+ * Wit.ai actions *
  ******************/
 const actions = {
     send(request, response) {
@@ -33,9 +33,9 @@ const actions = {
 }
 
 /*******************
- **Wit.ai services**
+ * Wit.ai services *
  *******************/
-// SETUP THE WIT.AI SERVICE
+// Create new Wit
 const getWit = function () {
     console.log('GRABBING WIT')
     return new Wit({
@@ -43,7 +43,7 @@ const getWit = function () {
         actions
     })
 }
-// exporting for use in index.js and potentially other files
+
 module.exports = {
     getWit: getWit
 }
