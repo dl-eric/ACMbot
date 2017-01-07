@@ -138,11 +138,11 @@ app.post('/webhook/', (req, res) => {
 // SETUP THE WIT.AI SERVICE
 // changed it to const
 
-if (require.main === module) {
-  console.log("Bot testing mode.");
-  const client = getWit();
-  interactive(client);
-}
+// if (require.main === module) {
+//   console.log("Bot testing mode.");
+//   const client = getWit();
+//   interactive(client);
+// }
 // bot testing mode
 // use this to test the bot in command line without deploying
 // the command is WIT_TOKEN = {wit token} node index
