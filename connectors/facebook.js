@@ -4,12 +4,21 @@ var request = require('request')
 var Config = require('../config')
 
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
-var newMessage = function (id, text) {
-	const body = JSON.stringify({
-    	recipient: {id},
-    	message: {text},
-  	});
-  
+var newMessage = function (id, text, quickreplies) {
+	if(quickreplies) {
+		const body = JSON.stringify({
+			recipient: {id},
+			message: {text},
+		});
+	} else {
+		const body = JSON.stringify({
+			recipient: {id},
+			message: {text, quickreplies},
+		});
+	}
+	
+	console.log(body);
+
   	const qs = 'access_token=' + Config.FB_PAGE_TOKEN;
   	return fetch('https://graph.facebook.com/v2.6/me/messages?' + qs, {
     	method: 'POST',

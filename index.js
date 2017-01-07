@@ -24,7 +24,7 @@ const actions = {
 
             console.log(JSON.stringify(response));
 
-            FB.newMessage(recipientId, response.text);
+            FB.newMessage(recipientId, response.text, response.quickreplies);
         } else {
             console.error('Oops! Couldn\'t find user for session:', request.sessionId);
             // Giving the wheel back to our bot
