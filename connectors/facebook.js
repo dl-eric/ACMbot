@@ -4,9 +4,21 @@ var request = require('request')
 var Config = require('../config')
 
 // SETUP A MESSAGE FOR THE FACEBOOK REQUEST
-var newMessage = function (id, text, quickreplies) {
+var newMessage = function (id, text, qckreplies) {
 	var body = ''
 	if(quickreplies) {
+		var quickreplies = []
+
+		for(let i = 0; i < quickreplies.length; i++) {
+			let myQuickReply = {
+			'content_type': 'text',
+			'title': qckreplies[i],
+			'payload':'W0T'
+			}
+
+			quickreplies.push(myQuickReply)
+		}
+		
 		body = JSON.stringify({
 			recipient: {id},
 			message: {text, quickreplies},
