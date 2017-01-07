@@ -7,7 +7,7 @@ var Config = require('../config')
 var newMessage = function (id, text, qckreplies) {
 	var body = ''
 	if(qckreplies) {
-		var quickreplies = []
+		var quick_replies = []
 
 		for(let i = 0; i < qckreplies.length; i++) {
 			let myQuickReply = {
@@ -16,12 +16,12 @@ var newMessage = function (id, text, qckreplies) {
 			'payload':'W0T'
 			}
 
-			quickreplies.push(myQuickReply)
+			quick_replies.push(myQuickReply)
 		}
 		
 		body = JSON.stringify({
 			recipient: {id},
-			message: {text, quickreplies},
+			message: {text, quick_replies},
 		});
 	} else {
 		body = JSON.stringify({
