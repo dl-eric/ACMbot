@@ -65,7 +65,8 @@ app.get('/webhook/', function (req, res) {
     }
 	console.log('Wrong FB_VERIFYessio_TOKEN')
     res.send('Error, wrong token. Go away.')
-	res.sendStatus(400); // this is where HTTP bad request 400 should be flagged
+	res.sendStatus(403); // changed it to 403 because the server understands
+											 // the request but we are refusing access
 });
 
 // API Endpoint
